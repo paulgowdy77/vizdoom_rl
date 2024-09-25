@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     game.init()
 
-    episodes = 10
+    episodes = 2
 
     for i in range(episodes):
         print(f"Episode #{i + 1}")

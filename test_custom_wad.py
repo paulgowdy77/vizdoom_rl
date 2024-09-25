@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # Sets path to additional resources wad file which is basically your scenario wad.
     # If not specified default maps will be used and it's pretty much useless... unless you want to play good old Doom.
     #game.set_doom_scenario_path(os.path.join(vzd.scenarios_path, "basic.wad"))
-    game.set_doom_scenario_path("./custom_wads/2024-09-19-1357_call_of_war.wad")
+    game.set_doom_scenario_path("./custom_wads/lev_defend.wad")
 
     # Sets map to start (scenario .wad files can contain many maps).
     game.set_doom_map("map01")
@@ -177,6 +177,8 @@ if __name__ == "__main__":
 
             # Makes an action (here random one) and returns a reward.
             r = game.make_action(choice(actions))
+
+            print("reward:", r)
 
             # Makes a "prolonged" action and skip frames:
             # skiprate = 4

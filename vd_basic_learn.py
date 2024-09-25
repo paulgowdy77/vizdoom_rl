@@ -22,15 +22,15 @@ import vizdoom as vzd
 # Q-learning settings
 learning_rate = 0.00025
 discount_factor = 0.99
-train_epochs = 5
-learning_steps_per_epoch = 2000
+train_epochs = 3
+learning_steps_per_epoch = 500
 replay_memory_size = 10000
 
 # NN learning settings
-batch_size = 64
+batch_size = 32
 
 # Training regime
-test_episodes_per_epoch = 100
+test_episodes_per_epoch = 5
 
 # Other parameters
 frame_repeat = 12
@@ -43,9 +43,10 @@ load_model = False
 skip_learning = False
 
 # Configuration file path
-config_file_path = os.path.join(vzd.scenarios_path, "simpler_basic.cfg")
+#config_file_path = os.path.join(vzd.scenarios_path, "simpler_basic.cfg")
 # config_file_path = os.path.join(vzd.scenarios_path, "rocket_basic.cfg")
 # config_file_path = os.path.join(vzd.scenarios_path, "basic.cfg")
+config_file_path = "deathmatch.cfg"
 
 # Uses GPU if available
 if torch.cuda.is_available():
