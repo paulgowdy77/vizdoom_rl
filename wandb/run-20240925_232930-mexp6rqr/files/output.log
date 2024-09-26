@@ -1,0 +1,27 @@
+Using GPU
+Initializing doom...
+Doom initialized.
+Initializing new model
+
+Epoch #1
+C:\Users\paulg\Documents\vizdoom_rl\vd_basic_learn.py:155: RuntimeWarning: Mean of empty slice.                                                                
+  train_scores.mean(), train_scores.std()
+C:\Users\paulg\AppData\Local\Programs\Python\Python312\Lib\site-packages\numpy\core\_methods.py:129: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+C:\Users\paulg\AppData\Local\Programs\Python\Python312\Lib\site-packages\numpy\core\_methods.py:206: RuntimeWarning: Degrees of freedom <= 0 for slice
+  ret = _var(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+C:\Users\paulg\AppData\Local\Programs\Python\Python312\Lib\site-packages\numpy\core\_methods.py:163: RuntimeWarning: invalid value encountered in divide
+  arrmean = um.true_divide(arrmean, div, out=arrmean,
+C:\Users\paulg\AppData\Local\Programs\Python\Python312\Lib\site-packages\numpy\core\_methods.py:198: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+Traceback (most recent call last):
+  File "C:\Users\paulg\Documents\vizdoom_rl\vd_basic_learn.py", line 341, in <module>
+    agent, game = run(
+                  ^^^^
+  File "C:\Users\paulg\Documents\vizdoom_rl\vd_basic_learn.py", line 157, in run
+    "min: %.1f," % train_scores.min(),
+                   ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\paulg\AppData\Local\Programs\Python\Python312\Lib\site-packages\numpy\core\_methods.py", line 45, in _amin
+    return umr_minimum(a, axis, None, out, keepdims, initial, where)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: zero-size array to reduction operation minimum which has no identity

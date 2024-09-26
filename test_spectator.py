@@ -1,12 +1,4 @@
-#!/usr/bin/env python3
 
-#####################################################################
-# This script presents SPECTATOR mode. In SPECTATOR mode you play and
-# your agent can learn from it.
-# Configuration is loaded from "../../scenarios/<SCENARIO_NAME>.cfg" file.
-#
-# To see the scenario description go to "../../scenarios/README.md"
-#####################################################################
 
 import os
 from argparse import ArgumentParser
@@ -54,17 +46,23 @@ if __name__ == "__main__":
 
         game.new_episode()
         while not game.is_episode_finished():
+
+
+
+            
             state = game.get_state()
 
             game.advance_action()
             last_action = game.get_last_action()
             reward = game.get_last_reward()
 
-            print(f"State #{state.number}")
-            print("Game variables: ", state.game_variables)
-            print("Action:", last_action)
-            print("Reward:", reward)
-            print("=====================")
+            # print(f"State #{state.number}")
+            # print("Game variables: ", state.game_variables)
+            # print("Action:", last_action)
+            # print("Reward:", reward)
+            # print("=====================")
+            if reward != 0:
+                print(f"Reward: {reward}")
 
         print("Episode finished!")
         print("Total reward:", game.get_total_reward())

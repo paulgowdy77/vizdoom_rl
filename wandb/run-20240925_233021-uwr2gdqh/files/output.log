@@ -1,0 +1,92 @@
+Using GPU
+Initializing doom...
+Doom initialized.
+Initializing new model
+
+Epoch #1
+                                                                                                                                                               
+Results: mean: 9.6 +/- 15.8, min: 0.0, max: 41.0,
+
+Testing...
+Results: mean: 16.8 +/- 14.5, min: 3.0 max: 43.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 1.15 minutes
+
+Epoch #2
+Results: mean: 19.0 +/- 14.0, min: 5.0, max: 33.0,
+
+Testing...
+Results: mean: 12.6 +/- 10.1, min: 0.0 max: 27.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 2.20 minutes
+
+Epoch #3
+Results: mean: 18.3 +/- 17.0, min: 3.0, max: 42.0,
+
+Testing...
+Results: mean: 15.2 +/- 10.3, min: 2.0 max: 30.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 3.33 minutes
+
+Epoch #4
+Results: mean: 14.5 +/- 16.9, min: 0.0, max: 42.0,
+
+Testing...
+Results: mean: 29.6 +/- 18.2, min: 2.0 max: 48.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 4.58 minutes
+
+Epoch #5
+Results: mean: 4.8 +/- 2.2, min: 2.0, max: 8.0,
+
+Testing...
+Results: mean: 12.8 +/- 12.7, min: 2.0 max: 37.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 5.58 minutes
+
+Epoch #6
+Results: mean: 10.0 +/- 5.5, min: 0.0, max: 15.0,
+
+Testing...
+Results: mean: 4.4 +/- 3.4, min: 1.0 max: 11.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 6.41 minutes
+
+Epoch #7
+Results: mean: 9.2 +/- 15.9, min: 0.0, max: 41.0,
+
+Testing...
+Results: mean: 10.2 +/- 7.1, min: 2.0 max: 23.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 7.40 minutes
+
+Epoch #8
+Results: mean: 6.6 +/- 2.1, min: 5.0, max: 10.0,
+
+Testing...
+Results: mean: 4.8 +/- 3.2, min: 1.0 max: 10.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 8.22 minutes
+
+Epoch #9
+Results: mean: 9.4 +/- 8.8, min: 3.0, max: 26.0,
+
+Testing...
+Results: mean: 10.8 +/- 15.7, min: 1.0 max: 42.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 9.18 minutes
+
+Epoch #10
+Results: mean: 22.7 +/- 16.7, min: 8.0, max: 46.0,
+
+Testing...
+Results: mean: 2.6 +/- 1.7, min: 0.0 max: 4.0
+Saving the network weights to: ./model-doom.pth
+Total elapsed time: 9.98 minutes
+======================================
+Training finished. It's time to watch!
+Total score:  4.0
+Total score:  5.0
+  File "C:\Users\paulg\Documents\vizdoom_rl\vd_basic_learn.py", line 368, in <module>
+    game.advance_action()
+vizdoom.vizdoom.ViZDoomUnexpectedExitException: Controlled ViZDoom instance exited unexpectedly.

@@ -18,16 +18,22 @@ from tqdm import trange
 
 import vizdoom as vzd
 
+import wandb
+
+wandb.init(
+    # set the wandb project where this run will be logged
+    project="my-awesome-project")
+
 
 # Q-learning settings
 learning_rate = 0.00025
 discount_factor = 0.99
-train_epochs = 3
-learning_steps_per_epoch = 500
-replay_memory_size = 10000
+train_epochs = 10
+learning_steps_per_epoch = 3000
+replay_memory_size = 5000
 
 # NN learning settings
-batch_size = 32
+batch_size = 64
 
 # Training regime
 test_episodes_per_epoch = 5
@@ -35,7 +41,7 @@ test_episodes_per_epoch = 5
 # Other parameters
 frame_repeat = 12
 resolution = (30, 45)
-episodes_to_watch = 10
+episodes_to_watch = 5
 
 model_savefile = "./model-doom.pth"
 save_model = True
@@ -46,14 +52,16 @@ skip_learning = False
 #config_file_path = os.path.join(vzd.scenarios_path, "simpler_basic.cfg")
 # config_file_path = os.path.join(vzd.scenarios_path, "rocket_basic.cfg")
 # config_file_path = os.path.join(vzd.scenarios_path, "basic.cfg")
-config_file_path = "deathmatch.cfg"
+config_file_path = "health.cfg"
 
 # Uses GPU if available
 if torch.cuda.is_available():
     DEVICE = torch.device("cuda")
     torch.backends.cudnn.benchmark = True
+    print("Using GPU")
 else:
     DEVICE = torch.device("cpu")
+    print("Using CPU")
 
 
 def preprocess(img):
@@ -100,6 +108,7 @@ def test(game, agent):
         "min: %.1f" % test_scores.min(),
         "max: %.1f" % test_scores.max(),
     )
+    return test_scores.mean()
 
 
 def run(game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
@@ -149,7 +158,11 @@ def run(game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
             "max: %.1f," % train_scores.max(),
         )
 
-        test(game, agent)
+
+        test_score = test(game, agent)
+
+        wandb.log({"train_score": train_scores.mean(), "test_score": test_score})
+
         if save_model:
             print("Saving the network weights to:", model_savefile)
             torch.save(agent.q_net, model_savefile)

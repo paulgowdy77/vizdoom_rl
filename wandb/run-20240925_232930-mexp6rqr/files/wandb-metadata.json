@@ -1,0 +1,32 @@
+{
+  "os": "Windows-11-10.0.22631-SP0",
+  "python": "3.12.2",
+  "startedAt": "2024-09-26T06:29:30.339707Z",
+  "program": "C:\\Users\\paulg\\Documents\\vizdoom_rl\\vd_basic_learn.py",
+  "codePath": "vd_basic_learn.py",
+  "git": {
+    "remote": "https://github.com/paulgowdy77/vizdoom_rl.git",
+    "commit": "d04441ef6aae08b4c0b6871db48123e018e3cbca"
+  },
+  "email": "paulgamble100@gmail.com",
+  "root": "C:\\Users\\paulg\\Documents\\vizdoom_rl",
+  "host": "PG-ROG",
+  "username": "paulg",
+  "executable": "C:\\Users\\paulg\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+  "codePathLocal": "vd_basic_learn.py",
+  "cpu_count": 14,
+  "cpu_count_logical": 20,
+  "disk": {
+    "/": {
+      "total": "994731954176",
+      "used": "588990259200"
+    }
+  },
+  "memory": {
+    "total": "16780615680"
+  },
+  "cpu": {
+    "count": 14,
+    "countLogical": 20
+  }
+}
