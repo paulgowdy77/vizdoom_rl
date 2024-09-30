@@ -320,7 +320,7 @@ class DQNAgent:
 
 level_to_learn = {
     "mode": "seek_and_slay",
-    "difficulty": 1,
+    "difficulty": 0,
     "level_name": "SeekAndSlayLevel0-v0"
 }
 

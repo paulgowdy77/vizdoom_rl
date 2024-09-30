@@ -1,0 +1,7 @@
+config save -> wandb
+load and replay models
+agents v- Deep Transformer QN agent
+
+
+how to scale rewards across modes?
+how to do shared action space
