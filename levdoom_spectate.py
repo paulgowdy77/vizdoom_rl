@@ -1,15 +1,18 @@
 import vizdoom as vzd
 from time import sleep
 
-CONFIG = 'levdoom_levels/conf.cfg'
-WAD_FILE = 'levdoom_levels/mixed_enemies.wad'
+from levdoom_utils import create_doom_game
 
 
-game = vzd.DoomGame()
 
-game.load_config(CONFIG)
-game.set_doom_scenario_path(WAD_FILE)
-#game.set_seed(seed)
+
+level_to_spectate = {
+    "mode": "health_gathering",
+    "difficulty": 1,
+    "level_name": "HealthGatheringLevel1_8-v0"
+}
+
+game = create_doom_game(level_to_spectate)
 
 #game.add_game_args("+freelook 1")
 game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
