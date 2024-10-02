@@ -5,3 +5,9 @@ agents v- Deep Transformer QN agent
 
 how to scale rewards across modes?
 how to do shared action space
+
+----
+
+
+fix level config
+make multi run

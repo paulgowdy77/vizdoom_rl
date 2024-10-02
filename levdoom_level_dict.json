@@ -1,0 +1,434 @@
+{
+    "DefendTheCenterLevel0-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 0,
+        "level_name": "DefendTheCenterLevel0-v0",
+        "level_wad_file": "default"
+    },
+    "DefendTheCenterLevel1_1-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 1,
+        "level_name": "DefendTheCenterLevel1_1-v0",
+        "level_wad_file": "gore"
+    },
+    "DefendTheCenterLevel1_2-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 1,
+        "level_name": "DefendTheCenterLevel1_2-v0",
+        "level_wad_file": "mossy_bricks"
+    },
+    "DefendTheCenterLevel1_3-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 1,
+        "level_name": "DefendTheCenterLevel1_3-v0",
+        "level_wad_file": "stone_wall"
+    },
+    "DefendTheCenterLevel1_4-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 1,
+        "level_name": "DefendTheCenterLevel1_4-v0",
+        "level_wad_file": "fuzzy_enemies"
+    },
+    "DefendTheCenterLevel1_5-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 1,
+        "level_name": "DefendTheCenterLevel1_5-v0",
+        "level_wad_file": "resized_enemies"
+    },
+    "DefendTheCenterLevel1_6-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 1,
+        "level_name": "DefendTheCenterLevel1_6-v0",
+        "level_wad_file": "fast_enemies"
+    },
+    "DefendTheCenterLevel1_7-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 1,
+        "level_name": "DefendTheCenterLevel1_7-v0",
+        "level_wad_file": "flying_enemies"
+    },
+    "DefendTheCenterLevel2_1-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 2,
+        "level_name": "DefendTheCenterLevel2_1-v0",
+        "level_wad_file": "fast_flying_enemies"
+    },
+    "DefendTheCenterLevel2_2-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 2,
+        "level_name": "DefendTheCenterLevel2_2-v0",
+        "level_wad_file": "gore_mossy_bricks"
+    },
+    "DefendTheCenterLevel2_3-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 2,
+        "level_name": "DefendTheCenterLevel2_3-v0",
+        "level_wad_file": "resized_fuzzy_enemies"
+    },
+    "DefendTheCenterLevel2_4-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 2,
+        "level_name": "DefendTheCenterLevel2_4-v0",
+        "level_wad_file": "stone_wall_flying_enemies"
+    },
+    "DefendTheCenterLevel3_1-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 3,
+        "level_name": "DefendTheCenterLevel3_1-v0",
+        "level_wad_file": "resized_flying_enemies_mossy_bricks"
+    },
+    "DefendTheCenterLevel3_2-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 3,
+        "level_name": "DefendTheCenterLevel3_2-v0",
+        "level_wad_file": "gore_stone_wall_fuzzy_enemies"
+    },
+    "DefendTheCenterLevel3_3-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 3,
+        "level_name": "DefendTheCenterLevel3_3-v0",
+        "level_wad_file": "fast_resized_enemies_gore"
+    },
+    "DefendTheCenterLevel4-v0": {
+        "mode": "defend_the_center",
+        "difficulty": 4,
+        "level_name": "DefendTheCenterLevel4-v0",
+        "level_wad_file": "complete"
+    },
+    "HealthGatheringLevel0-v0": {
+        "mode": "health_gathering",
+        "difficulty": 0,
+        "level_name": "HealthGatheringLevel0-v0",
+        "level_wad_file": "default"
+    },
+    "HealthGatheringLevel1_1-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_1-v0",
+        "level_wad_file": "obstacles"
+    },
+    "HealthGatheringLevel1_2-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_2-v0",
+        "level_wad_file": "slime"
+    },
+    "HealthGatheringLevel1_3-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_3-v0",
+        "level_wad_file": "lava"
+    },
+    "HealthGatheringLevel1_4-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_4-v0",
+        "level_wad_file": "water"
+    },
+    "HealthGatheringLevel1_5-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_5-v0",
+        "level_wad_file": "stimpacks"
+    },
+    "HealthGatheringLevel1_6-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_6-v0",
+        "level_wad_file": "supreme"
+    },
+    "HealthGatheringLevel1_7-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_7-v0",
+        "level_wad_file": "resized_kits"
+    },
+    "HealthGatheringLevel1_8-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_8-v0",
+        "level_wad_file": "short_agent"
+    },
+    "HealthGatheringLevel1_9-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_9-v0",
+        "level_wad_file": "poison"
+    },
+    "HealthGatheringLevel1_10-v0": {
+        "mode": "health_gathering",
+        "difficulty": 1,
+        "level_name": "HealthGatheringLevel1_10-v0",
+        "level_wad_file": "shaded_kits"
+    },
+    "HealthGatheringLevel2_1-v0": {
+        "mode": "health_gathering",
+        "difficulty": 2,
+        "level_name": "HealthGatheringLevel2_1-v0",
+        "level_wad_file": "slime_obstacles"
+    },
+    "HealthGatheringLevel2_2-v0": {
+        "mode": "health_gathering",
+        "difficulty": 2,
+        "level_name": "HealthGatheringLevel2_2-v0",
+        "level_wad_file": "shaded_stimpacks"
+    },
+    "HealthGatheringLevel2_3-v0": {
+        "mode": "health_gathering",
+        "difficulty": 2,
+        "level_name": "HealthGatheringLevel2_3-v0",
+        "level_wad_file": "supreme_poison"
+    },
+    "HealthGatheringLevel2_4-v0": {
+        "mode": "health_gathering",
+        "difficulty": 2,
+        "level_name": "HealthGatheringLevel2_4-v0",
+        "level_wad_file": "resized_kits_lava"
+    },
+    "HealthGatheringLevel2_5-v0": {
+        "mode": "health_gathering",
+        "difficulty": 2,
+        "level_name": "HealthGatheringLevel2_5-v0",
+        "level_wad_file": "stimpacks_poison"
+    },
+    "HealthGatheringLevel3_1-v0": {
+        "mode": "health_gathering",
+        "difficulty": 3,
+        "level_name": "HealthGatheringLevel3_1-v0",
+        "level_wad_file": "lava_supreme_short_agent"
+    },
+    "HealthGatheringLevel3_2-v0": {
+        "mode": "health_gathering",
+        "difficulty": 3,
+        "level_name": "HealthGatheringLevel3_2-v0",
+        "level_wad_file": "obstacles_slime_stimpacks"
+    },
+    "HealthGatheringLevel3_3-v0": {
+        "mode": "health_gathering",
+        "difficulty": 3,
+        "level_name": "HealthGatheringLevel3_3-v0",
+        "level_wad_file": "poison_resized_shaded_kits"
+    },
+    "HealthGatheringLevel4-v0": {
+        "mode": "health_gathering",
+        "difficulty": 4,
+        "level_name": "HealthGatheringLevel4-v0",
+        "level_wad_file": "complete"
+    },
+    "SeekAndSlayLevel0-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 0,
+        "level_name": "SeekAndSlayLevel0-v0",
+        "level_wad_file": "default"
+    },
+    "SeekAndSlayLevel1_1-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 1,
+        "level_name": "SeekAndSlayLevel1_1-v0",
+        "level_wad_file": "blue"
+    },
+    "SeekAndSlayLevel1_2-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 1,
+        "level_name": "SeekAndSlayLevel1_2-v0",
+        "level_wad_file": "red"
+    },
+    "SeekAndSlayLevel1_3-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 1,
+        "level_name": "SeekAndSlayLevel1_3-v0",
+        "level_wad_file": "obstacles"
+    },
+    "SeekAndSlayLevel1_4-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 1,
+        "level_name": "SeekAndSlayLevel1_4-v0",
+        "level_wad_file": "resized_enemies"
+    },
+    "SeekAndSlayLevel1_5-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 1,
+        "level_name": "SeekAndSlayLevel1_5-v0",
+        "level_wad_file": "shadows"
+    },
+    "SeekAndSlayLevel1_6-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 1,
+        "level_name": "SeekAndSlayLevel1_6-v0",
+        "level_wad_file": "mixed_enemies"
+    },
+    "SeekAndSlayLevel1_7-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 1,
+        "level_name": "SeekAndSlayLevel1_7-v0",
+        "level_wad_file": "invulnerable"
+    },
+    "SeekAndSlayLevel2_1-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 2,
+        "level_name": "SeekAndSlayLevel2_1-v0",
+        "level_wad_file": "blue_shadows"
+    },
+    "SeekAndSlayLevel2_2-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 2,
+        "level_name": "SeekAndSlayLevel2_2-v0",
+        "level_wad_file": "obstacles_resized_enemies"
+    },
+    "SeekAndSlayLevel2_3-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 2,
+        "level_name": "SeekAndSlayLevel2_3-v0",
+        "level_wad_file": "red_mixed_enemies"
+    },
+    "SeekAndSlayLevel2_4-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 2,
+        "level_name": "SeekAndSlayLevel2_4-v0",
+        "level_wad_file": "invulnerable_blue"
+    },
+    "SeekAndSlayLevel2_5-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 2,
+        "level_name": "SeekAndSlayLevel2_5-v0",
+        "level_wad_file": "resized_enemies_red"
+    },
+    "SeekAndSlayLevel2_6-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 2,
+        "level_name": "SeekAndSlayLevel2_6-v0",
+        "level_wad_file": "shadows_obstacles"
+    },
+    "SeekAndSlayLevel3_1-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 3,
+        "level_name": "SeekAndSlayLevel3_1-v0",
+        "level_wad_file": "blue_mixed_resized_enemies"
+    },
+    "SeekAndSlayLevel3_2-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 3,
+        "level_name": "SeekAndSlayLevel3_2-v0",
+        "level_wad_file": "red_obstacles_invulnerable"
+    },
+    "SeekAndSlayLevel3_3-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 3,
+        "level_name": "SeekAndSlayLevel3_3-v0",
+        "level_wad_file": "resized_shadows_invulnerable"
+    },
+    "SeekAndSlayLevel4-v0": {
+        "mode": "seek_and_slay",
+        "difficulty": 4,
+        "level_name": "SeekAndSlayLevel4-v0",
+        "level_wad_file": "complete"
+    },
+    "DodgeProjectilesLevel0-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 0,
+        "level_name": "DodgeProjectilesLevel0-v0",
+        "level_wad_file": "default"
+    },
+    "DodgeProjectilesLevel1_1-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 1,
+        "level_name": "DodgeProjectilesLevel1_1-v0",
+        "level_wad_file": "city"
+    },
+    "DodgeProjectilesLevel1_2-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 1,
+        "level_name": "DodgeProjectilesLevel1_2-v0",
+        "level_wad_file": "flames"
+    },
+    "DodgeProjectilesLevel1_3-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 1,
+        "level_name": "DodgeProjectilesLevel1_3-v0",
+        "level_wad_file": "flaming_skulls"
+    },
+    "DodgeProjectilesLevel1_4-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 1,
+        "level_name": "DodgeProjectilesLevel1_4-v0",
+        "level_wad_file": "mancubus"
+    },
+    "DodgeProjectilesLevel1_5-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 1,
+        "level_name": "DodgeProjectilesLevel1_5-v0",
+        "level_wad_file": "barons"
+    },
+    "DodgeProjectilesLevel1_6-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 1,
+        "level_name": "DodgeProjectilesLevel1_6-v0",
+        "level_wad_file": "cacodemons"
+    },
+    "DodgeProjectilesLevel1_7-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 1,
+        "level_name": "DodgeProjectilesLevel1_7-v0",
+        "level_wad_file": "resized_agent"
+    },
+    "DodgeProjectilesLevel2_1-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 2,
+        "level_name": "DodgeProjectilesLevel2_1-v0",
+        "level_wad_file": "revenants"
+    },
+    "DodgeProjectilesLevel2_2-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 2,
+        "level_name": "DodgeProjectilesLevel2_2-v0",
+        "level_wad_file": "city_resized_agent"
+    },
+    "DodgeProjectilesLevel2_3-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 2,
+        "level_name": "DodgeProjectilesLevel2_3-v0",
+        "level_wad_file": "arachnotron"
+    },
+    "DodgeProjectilesLevel2_4-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 2,
+        "level_name": "DodgeProjectilesLevel2_4-v0",
+        "level_wad_file": "barons_flaming_skulls"
+    },
+    "DodgeProjectilesLevel2_5-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 2,
+        "level_name": "DodgeProjectilesLevel2_5-v0",
+        "level_wad_file": "cacodemons_flames"
+    },
+    "DodgeProjectilesLevel2_6-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 2,
+        "level_name": "DodgeProjectilesLevel2_6-v0",
+        "level_wad_file": "mancubus_resized_agent"
+    },
+    "DodgeProjectilesLevel3_1-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 3,
+        "level_name": "DodgeProjectilesLevel3_1-v0",
+        "level_wad_file": "flames_flaming_skulls_mancubus"
+    },
+    "DodgeProjectilesLevel3_2-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 3,
+        "level_name": "DodgeProjectilesLevel3_2-v0",
+        "level_wad_file": "resized_agent_revenants"
+    },
+    "DodgeProjectilesLevel3_3-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 3,
+        "level_name": "DodgeProjectilesLevel3_3-v0",
+        "level_wad_file": "city_arachnotron"
+    },
+    "DodgeProjectilesLevel4-v0": {
+        "mode": "dodge_projectiles",
+        "difficulty": 4,
+        "level_name": "DodgeProjectilesLevel4-v0",
+        "level_wad_file": "complete"
+    }
+}

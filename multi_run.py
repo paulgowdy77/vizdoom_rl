@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
-
-# E. Culurciello, L. Mueller, Z. Boztoprak
-# December 2020
+import json
+import torch
+import wandb
 
 import itertools as it
 import os
@@ -11,28 +10,43 @@ from time import sleep, time
 
 import numpy as np
 import skimage.transform
-import torch
 import torch.nn as nn
 import torch.optim as optim
 from tqdm import trange
+import datetime
 
 import vizdoom as vzd
 
 from levdoom_utils import create_doom_game
-
-import wandb
-import json
 
 class DictObj:
     def __init__(self, in_dict: dict):
         for key, val in in_dict.items():
             setattr(self, key, val)
 
-def load_config(config_file_path):
+def load_agent_config(config_file_path):
     with open(config_file_path, "r") as f:
         config = json.load(f)
     config = DictObj(config)
     return config
+
+def load_level_details(level_name):
+    with open("levdoom_level_dict.json", "r") as f:
+        level_dict = json.load(f)
+    level_details = level_dict[level_name]
+    return level_details
+
+
+
+series_timestamp = datetime.datetime.now().strftime("%m%d-%H%M")
+
+AGENT_CONFIG = load_agent_config("configs/dqn_basic_config.json")
+
+level_name = "HealthGatheringLevel0-v0"
+level_details = load_level_details(level_name)
+
+NB_RUNS = 5
+
 
 # Uses GPU if available
 if torch.cuda.is_available():
@@ -43,16 +57,14 @@ else:
     DEVICE = torch.device("cpu")
     print("Using CPU")
 
-CONFIG = load_config("configs/dqn_basic_config.json")
 
 
 def preprocess(img):
     """Down samples image to resolution"""
-    img = skimage.transform.resize(img, CONFIG.resolution)
+    img = skimage.transform.resize(img, AGENT_CONFIG.resolution)
     img = img.astype(np.float32)
     img = np.expand_dims(img, axis=0)
     return img
-
 
 def create_simple_game(levdoom_level_details):
     print("Initializing doom...")
@@ -69,18 +81,17 @@ def create_simple_game(levdoom_level_details):
 
     return game
 
-
-def test(game, agent):
+def test(game, agent, actions):
     """Runs a test_episodes_per_epoch episodes and prints the result"""
     print("\nTesting...")
     test_scores = []
-    for test_episode in trange(CONFIG.test_episodes_per_epoch, leave=False):
+    for test_episode in trange(AGENT_CONFIG.test_episodes_per_epoch, leave=False):
         game.new_episode()
         while not game.is_episode_finished():
             state = preprocess(game.get_state().screen_buffer)
             best_action_index = agent.get_action(state)
 
-            game.make_action(actions[best_action_index], CONFIG.frame_repeat)
+            game.make_action(actions[best_action_index], AGENT_CONFIG.frame_repeat)
         r = game.get_total_reward()
         test_scores.append(r)
 
@@ -94,8 +105,7 @@ def test(game, agent):
     )
     return test_scores.mean()
 
-
-def run(game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
+def run_training(wandb_run, game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
     """
     Run num epochs of training episodes.
     Skip frame_repeat number of frames after each action.
@@ -143,23 +153,22 @@ def run(game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
         )
 
 
-        test_score = test(game, agent)
+        test_score = test(game, agent, actions)
 
-        wandb.log(
+        wandb_run.log(
             {
                 "train_score": train_scores.mean(), 
                 "test_score": test_score
             }
         )
 
-        if CONFIG.save_model:
-            print("Saving the network weights to:", CONFIG.model_savefile)
-            torch.save(agent.q_net, CONFIG.model_savefile)
+        if AGENT_CONFIG.save_model:
+            print("Saving the network weights to:", AGENT_CONFIG.model_savefile)
+            torch.save(agent.q_net, AGENT_CONFIG.model_savefile)
         print("Total elapsed time: %.2f minutes" % ((time() - start_time) / 60.0))
 
     game.close()
     return agent, game
-
 
 class DuelQNet(nn.Module):
     """
@@ -215,7 +224,6 @@ class DuelQNet(nn.Module):
 
         return x
 
-
 class DQNAgent:
     def __init__(
         self,
@@ -240,9 +248,9 @@ class DQNAgent:
         self.criterion = nn.MSELoss()
 
         if load_model:
-            print("Loading model from: ", CONFIG.model_savefile)
-            self.q_net = torch.load(CONFIG.model_savefile)
-            self.target_net = torch.load(CONFIG.model_savefile)
+            print("Loading model from: ", AGENT_CONFIG.model_savefile)
+            self.q_net = torch.load(AGENT_CONFIG.model_savefile)
+            self.target_net = torch.load(AGENT_CONFIG.model_savefile)
             self.epsilon = self.epsilon_min
 
         else:
@@ -311,22 +319,10 @@ class DQNAgent:
 
 
 
-level_to_learn = {
-    "mode": "seek_and_slay",
-    "difficulty": 0,
-    "level_name": "SeekAndSlayLevel0-v0"
-}
+def run_training_for_DQN(level_details, wandb_run, agent_config):
 
-wandb.init(
-        project="doom-rl",
-        name=level_to_learn["level_name"],
-        config=CONFIG,
-        group=level_to_learn["level_name"],
-    )
-
-if __name__ == "__main__":
     # Initialize game and actions
-    game = create_simple_game(level_to_learn)
+    game = create_simple_game(level_details)
 
 
     n = game.get_available_buttons_size()
@@ -335,45 +331,49 @@ if __name__ == "__main__":
     # Initialize our agent with the set parameters
     agent = DQNAgent(
         len(actions),
-        lr=CONFIG.learning_rate,
-        batch_size=CONFIG.batch_size,
-        memory_size=CONFIG.replay_memory_size,
-        discount_factor=CONFIG.discount_factor,
-        load_model=CONFIG.load_model,
+        lr=agent_config.learning_rate,
+        batch_size=agent_config.batch_size,
+        memory_size=agent_config.replay_memory_size,
+        discount_factor=agent_config.discount_factor,
+        load_model=agent_config.load_model,
     )
 
     # Run the training for the set number of epochs
-    if not CONFIG.skip_learning:
-        agent, game = run(
+    if not agent_config.skip_learning:
+        agent, game = run_training(
+            wandb_run,
             game,
             agent,
             actions,
-            num_epochs=CONFIG.train_epochs,
-            frame_repeat=CONFIG.frame_repeat,
-            steps_per_epoch=CONFIG.learning_steps_per_epoch,
+            num_epochs=agent_config.train_epochs,
+            frame_repeat=agent_config.frame_repeat,
+            steps_per_epoch=agent_config.learning_steps_per_epoch
         )
 
-        print("======================================")
-        print("Training finished. It's time to watch!")
+        # print("======================================")
+        # print("Training finished. It's time to watch!")
+        print("Training finished.")
 
     # Reinitialize the game with window visible
     game.close()
-    game.set_window_visible(True)
-    game.set_mode(vzd.Mode.ASYNC_PLAYER)
-    game.init()
+    # game.set_window_visible(True)
+    # game.set_mode(vzd.Mode.ASYNC_PLAYER)
+    # game.init()
+    # pass
 
-    for _ in range(CONFIG.episodes_to_watch):
-        game.new_episode()
-        while not game.is_episode_finished():
-            state = preprocess(game.get_state().screen_buffer)
-            best_action_index = agent.get_action(state)
 
-            # Instead of make_action(a, frame_repeat) in order to make the animation smooth
-            game.set_action(actions[best_action_index])
-            for _ in range(CONFIG.frame_repeat):
-                game.advance_action()
 
-        # Sleep between episodes
-        sleep(1.0)
-        score = game.get_total_reward()
-        print("Total score: ", score)
+
+for run_nb in range(NB_RUNS):
+
+    wdb_run = wandb.init(
+        project="doom-rl",
+        name=level_details["level_name"] + f"-run-{run_nb}",
+        config=AGENT_CONFIG,
+        group=level_details["level_name"] + "-" + series_timestamp,
+    )
+
+    run_training_for_DQN(level_details, wdb_run, AGENT_CONFIG)
+
+    wdb_run.finish()
+
