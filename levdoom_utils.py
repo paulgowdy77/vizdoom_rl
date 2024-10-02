@@ -7,6 +7,7 @@ def load_level_files(level_to_play):
     level_name = level_to_play["level_name"]
 
     level_wad_file = f"levdoom_levels/{mode}/" + LEVDOOM_LEVEL_DICTIONARY[mode][difficulty][level_name] + ".wad"
+    # want to be able to specify different config files for different modes, not one per mode
     conf_file = f"levdoom_levels/{mode}/conf.cfg"
 
     return {

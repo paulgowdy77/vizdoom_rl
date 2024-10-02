@@ -21,34 +21,18 @@ import vizdoom as vzd
 from levdoom_utils import create_doom_game
 
 import wandb
+import json
 
+class DictObj:
+    def __init__(self, in_dict: dict):
+        for key, val in in_dict.items():
+            setattr(self, key, val)
 
-
-
-# Q-learning settings
-learning_rate = 0.00025
-discount_factor = 0.99
-train_epochs = 10
-learning_steps_per_epoch = 3000
-replay_memory_size = 5000
-
-# NN learning settings
-batch_size = 64
-
-# Training regime
-test_episodes_per_epoch = 5
-
-# Other parameters
-frame_repeat = 12
-resolution = (30, 45)
-episodes_to_watch = 2
-
-model_savefile = "./model-doom.pth"
-save_model = True
-load_model = False
-skip_learning = False
-
-
+def load_config(config_file_path):
+    with open(config_file_path, "r") as f:
+        config = json.load(f)
+    config = DictObj(config)
+    return config
 
 # Uses GPU if available
 if torch.cuda.is_available():
@@ -59,10 +43,12 @@ else:
     DEVICE = torch.device("cpu")
     print("Using CPU")
 
+CONFIG = load_config("configs/dqn_basic_config.json")
+
 
 def preprocess(img):
     """Down samples image to resolution"""
-    img = skimage.transform.resize(img, resolution)
+    img = skimage.transform.resize(img, CONFIG.resolution)
     img = img.astype(np.float32)
     img = np.expand_dims(img, axis=0)
     return img
@@ -88,13 +74,13 @@ def test(game, agent):
     """Runs a test_episodes_per_epoch episodes and prints the result"""
     print("\nTesting...")
     test_scores = []
-    for test_episode in trange(test_episodes_per_epoch, leave=False):
+    for test_episode in trange(CONFIG.test_episodes_per_epoch, leave=False):
         game.new_episode()
         while not game.is_episode_finished():
             state = preprocess(game.get_state().screen_buffer)
             best_action_index = agent.get_action(state)
 
-            game.make_action(actions[best_action_index], frame_repeat)
+            game.make_action(actions[best_action_index], CONFIG.frame_repeat)
         r = game.get_total_reward()
         test_scores.append(r)
 
@@ -161,9 +147,9 @@ def run(game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
 
         wandb.log({"train_score": train_scores.mean(), "test_score": test_score})
 
-        if save_model:
-            print("Saving the network weights to:", model_savefile)
-            torch.save(agent.q_net, model_savefile)
+        if CONFIG.save_model:
+            print("Saving the network weights to:", CONFIG.model_savefile)
+            torch.save(agent.q_net, CONFIG.model_savefile)
         print("Total elapsed time: %.2f minutes" % ((time() - start_time) / 60.0))
 
     game.close()
@@ -249,9 +235,9 @@ class DQNAgent:
         self.criterion = nn.MSELoss()
 
         if load_model:
-            print("Loading model from: ", model_savefile)
-            self.q_net = torch.load(model_savefile)
-            self.target_net = torch.load(model_savefile)
+            print("Loading model from: ", CONFIG.model_savefile)
+            self.q_net = torch.load(CONFIG.model_savefile)
+            self.target_net = torch.load(CONFIG.model_savefile)
             self.epsilon = self.epsilon_min
 
         else:
@@ -318,6 +304,8 @@ class DQNAgent:
             self.epsilon = self.epsilon_min
 
 
+
+
 level_to_learn = {
     "mode": "defend_the_center",
     "difficulty": 0,
@@ -326,7 +314,9 @@ level_to_learn = {
 
 wandb.init(
         project="doom-rl",
-        name=level_to_learn["mode"]
+        name=level_to_learn["level_name"],
+        config=CONFIG,
+        group=level_to_learn["level_name"],
     )
 
 if __name__ == "__main__":
@@ -340,22 +330,22 @@ if __name__ == "__main__":
     # Initialize our agent with the set parameters
     agent = DQNAgent(
         len(actions),
-        lr=learning_rate,
-        batch_size=batch_size,
-        memory_size=replay_memory_size,
-        discount_factor=discount_factor,
-        load_model=load_model,
+        lr=CONFIG.learning_rate,
+        batch_size=CONFIG.batch_size,
+        memory_size=CONFIG.replay_memory_size,
+        discount_factor=CONFIG.discount_factor,
+        load_model=CONFIG.load_model,
     )
 
     # Run the training for the set number of epochs
-    if not skip_learning:
+    if not CONFIG.skip_learning:
         agent, game = run(
             game,
             agent,
             actions,
-            num_epochs=train_epochs,
-            frame_repeat=frame_repeat,
-            steps_per_epoch=learning_steps_per_epoch,
+            num_epochs=CONFIG.train_epochs,
+            frame_repeat=CONFIG.frame_repeat,
+            steps_per_epoch=CONFIG.learning_steps_per_epoch,
         )
 
         print("======================================")
@@ -367,7 +357,7 @@ if __name__ == "__main__":
     game.set_mode(vzd.Mode.ASYNC_PLAYER)
     game.init()
 
-    for _ in range(episodes_to_watch):
+    for _ in range(CONFIG.episodes_to_watch):
         game.new_episode()
         while not game.is_episode_finished():
             state = preprocess(game.get_state().screen_buffer)
@@ -375,7 +365,7 @@ if __name__ == "__main__":
 
             # Instead of make_action(a, frame_repeat) in order to make the animation smooth
             game.set_action(actions[best_action_index])
-            for _ in range(frame_repeat):
+            for _ in range(CONFIG.frame_repeat):
                 game.advance_action()
 
         # Sleep between episodes

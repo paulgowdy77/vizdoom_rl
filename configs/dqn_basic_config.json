@@ -1,0 +1,16 @@
+{
+    "learning_rate": 0.00025,
+    "discount_factor": 0.99,
+    "train_epochs": 10,
+    "learning_steps_per_epoch": 3000,
+    "replay_memory_size": 5000,
+    "batch_size": 64,
+    "test_episodes_per_epoch": 5,
+    "frame_repeat": 12,
+    "resolution": [30, 45],
+    "episodes_to_watch": 2,
+    "model_savefile": "./model-doom.pth",
+    "save_model": true,
+    "load_model": false,
+    "skip_learning": false
+}
