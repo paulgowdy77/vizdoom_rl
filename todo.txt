@@ -1,13 +1,15 @@
-config save -> wandb
-load and replay models
+
+
+xx log global step in wandb, instead of just iter which is too variable
+fix saving - timestamped checkpoints, run folders
+load and replay
+make configurable size DQN
+generic agent interface
 agents v- Deep Transformer QN agent
 
-
-how to scale rewards across modes?
-how to do shared action space
+write out experimental plan and goals
 
 ----
 
-
-fix level config
-make multi run
+how to scale rewards across modes?
+how to do shared action space

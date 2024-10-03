@@ -42,7 +42,7 @@ series_timestamp = datetime.datetime.now().strftime("%m%d-%H%M")
 
 AGENT_CONFIG = load_agent_config("configs/dqn_basic_config.json")
 
-level_name = "HealthGatheringLevel0-v0"
+level_name = "SeekAndSlayLevel0-v0"
 level_details = load_level_details(level_name)
 
 NB_RUNS = 5
@@ -105,7 +105,7 @@ def test(game, agent, actions):
     )
     return test_scores.mean()
 
-def run_training(wandb_run, game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
+def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
     """
     Run num epochs of training episodes.
     Skip frame_repeat number of frames after each action.
@@ -158,13 +158,15 @@ def run_training(wandb_run, game, agent, actions, num_epochs, frame_repeat, step
         wandb_run.log(
             {
                 "train_score": train_scores.mean(), 
-                "test_score": test_score
+                "test_score": test_score,
+                "global_step": global_step,
             }
         )
 
         if AGENT_CONFIG.save_model:
             print("Saving the network weights to:", AGENT_CONFIG.model_savefile)
-            torch.save(agent.q_net, AGENT_CONFIG.model_savefile)
+            torch.save(agent.q_net, save_path + "/model.pth")
+
         print("Total elapsed time: %.2f minutes" % ((time() - start_time) / 60.0))
 
     game.close()
@@ -319,7 +321,7 @@ class DQNAgent:
 
 
 
-def run_training_for_DQN(level_details, wandb_run, agent_config):
+def run_training_for_DQN(level_details, wandb_run, agent_config, save_path):
 
     # Initialize game and actions
     game = create_simple_game(level_details)
@@ -342,6 +344,7 @@ def run_training_for_DQN(level_details, wandb_run, agent_config):
     if not agent_config.skip_learning:
         agent, game = run_training(
             wandb_run,
+            save_path,
             game,
             agent,
             actions,
@@ -362,18 +365,24 @@ def run_training_for_DQN(level_details, wandb_run, agent_config):
     # pass
 
 
-
+save_dir = "model_checkpoints/"
 
 for run_nb in range(NB_RUNS):
 
+    run_name = level_details["level_name"] + f"-run-{run_nb}--{series_timestamp}"
+    run_save_dir = save_dir + run_name
+
+    # create run name directory
+    os.makedirs(run_save_dir, exist_ok=True)
+
     wdb_run = wandb.init(
         project="doom-rl",
-        name=level_details["level_name"] + f"-run-{run_nb}",
+        name=run_name,
         config=AGENT_CONFIG,
         group=level_details["level_name"] + "-" + series_timestamp,
     )
 
-    run_training_for_DQN(level_details, wdb_run, AGENT_CONFIG)
+    run_training_for_DQN(level_details, wdb_run, AGENT_CONFIG, run_save_dir)
 
     wdb_run.finish()
 
