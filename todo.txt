@@ -1,7 +1,8 @@
 
 
 xx log global step in wandb, instead of just iter which is too variable
-fix saving - timestamped checkpoints, run folders
+xx fix saving - timestamped checkpoints, run folders
+
 load and replay
 make configurable size DQN
 generic agent interface

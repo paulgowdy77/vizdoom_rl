@@ -45,7 +45,7 @@ AGENT_CONFIG = load_agent_config("configs/dqn_basic_config.json")
 level_name = "SeekAndSlayLevel0-v0"
 level_details = load_level_details(level_name)
 
-NB_RUNS = 5
+NB_RUNS = 3
 
 
 # Uses GPU if available
@@ -81,18 +81,23 @@ def create_simple_game(levdoom_level_details):
 
     return game
 
-def test(game, agent, actions):
+def test(game, agent, actions, base_reward_per_step=0.01):
     """Runs a test_episodes_per_epoch episodes and prints the result"""
     print("\nTesting...")
     test_scores = []
     for test_episode in trange(AGENT_CONFIG.test_episodes_per_epoch, leave=False):
         game.new_episode()
+        episode_reward = 0
         while not game.is_episode_finished():
             state = preprocess(game.get_state().screen_buffer)
             best_action_index = agent.get_action(state)
 
-            game.make_action(actions[best_action_index], AGENT_CONFIG.frame_repeat)
-        r = game.get_total_reward()
+            reward = game.make_action(actions[best_action_index], AGENT_CONFIG.frame_repeat)
+            reward += base_reward_per_step
+            episode_reward += reward
+
+        #r = game.get_total_reward()
+        r = episode_reward
         test_scores.append(r)
 
     test_scores = np.array(test_scores)
@@ -105,7 +110,7 @@ def test(game, agent, actions):
     )
     return test_scores.mean()
 
-def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000):
+def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000, base_reward_per_step=0.01):
     """
     Run num epochs of training episodes.
     Skip frame_repeat number of frames after each action.
@@ -119,10 +124,14 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
         global_step = 0
         print(f"\nEpoch #{epoch + 1}")
 
+        episode_reward = 0
+
         for _ in trange(steps_per_epoch, leave=False):
             state = preprocess(game.get_state().screen_buffer)
             action = agent.get_action(state)
             reward = game.make_action(actions[action], frame_repeat)
+            reward += base_reward_per_step
+            episode_reward += reward
             done = game.is_episode_finished()
 
             if not done:
@@ -134,9 +143,10 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
 
             if global_step > agent.batch_size:
                 agent.train()
-
             if done:
-                train_scores.append(game.get_total_reward())
+                #train_scores.append(game.get_total_reward())
+                train_scores.append(episode_reward)
+                episode_reward = 0
                 game.new_episode()
 
             global_step += 1
@@ -153,7 +163,7 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
         )
 
 
-        test_score = test(game, agent, actions)
+        test_score = test(game, agent, actions, base_reward_per_step)
 
         wandb_run.log(
             {
@@ -164,7 +174,7 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
         )
 
         if AGENT_CONFIG.save_model:
-            print("Saving the network weights to:", AGENT_CONFIG.model_savefile)
+            #print("Saving the network weights to:", AGENT_CONFIG.model_savefile)
             torch.save(agent.q_net, save_path + "/model.pth")
 
         print("Total elapsed time: %.2f minutes" % ((time() - start_time) / 60.0))
