@@ -15,9 +15,14 @@ import torch.optim as optim
 from tqdm import trange
 import datetime
 
-import vizdoom as vzd
+from DoomEnv import DoomEnv
 
-from levdoom_utils import create_doom_game
+def load_level_details(level_name):
+    with open("levdoom_level_dict.json", "r") as f:
+        level_dict = json.load(f)
+    level_details = level_dict[level_name]
+    return level_details
+
 
 class DictObj:
     def __init__(self, in_dict: dict):
@@ -30,11 +35,7 @@ def load_agent_config(config_file_path):
     config = DictObj(config)
     return config
 
-def load_level_details(level_name):
-    with open("levdoom_level_dict.json", "r") as f:
-        level_dict = json.load(f)
-    level_details = level_dict[level_name]
-    return level_details
+
 
 
 
@@ -58,28 +59,6 @@ else:
     print("Using CPU")
 
 
-
-def preprocess(img):
-    """Down samples image to resolution"""
-    img = skimage.transform.resize(img, AGENT_CONFIG.resolution)
-    img = img.astype(np.float32)
-    img = np.expand_dims(img, axis=0)
-    return img
-
-def create_simple_game(levdoom_level_details):
-    print("Initializing doom...")
-    # game = vzd.DoomGame()
-    # game.load_config(config_file_path)
-    game = create_doom_game(levdoom_level_details)
-
-    game.set_window_visible(False)
-    game.set_mode(vzd.Mode.PLAYER)
-    game.set_screen_format(vzd.ScreenFormat.GRAY8)
-    game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
-    game.init()
-    print("Doom initialized.")
-
-    return game
 
 def test(game, agent, actions, base_reward_per_step=0.01):
     """Runs a test_episodes_per_epoch episodes and prints the result"""
@@ -110,7 +89,7 @@ def test(game, agent, actions, base_reward_per_step=0.01):
     )
     return test_scores.mean()
 
-def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000, base_reward_per_step=0.01):
+def run_training(wandb_run, save_path, doom_env, agent, actions, num_epochs, frame_repeat, steps_per_epoch=2000, base_reward_per_step=0.01):
     """
     Run num epochs of training episodes.
     Skip frame_repeat number of frames after each action.
@@ -119,7 +98,9 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
     start_time = time()
 
     for epoch in range(num_epochs):
-        game.new_episode()
+
+        doom_env.reset()
+
         train_scores = []
         global_step = 0
         print(f"\nEpoch #{epoch + 1}")
@@ -127,15 +108,14 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
         episode_reward = 0
 
         for _ in trange(steps_per_epoch, leave=False):
-            state = preprocess(game.get_state().screen_buffer)
+
+            state = doom_env.get_processed_state()
+
             action = agent.get_action(state)
-            reward = game.make_action(actions[action], frame_repeat)
-            reward += base_reward_per_step
-            episode_reward += reward
-            done = game.is_episode_finished()
+            reward, done = doom_env.step(actions[action], frame_repeat)
 
             if not done:
-                next_state = preprocess(game.get_state().screen_buffer)
+                next_state = doom_env.get_processed_state()
             else:
                 next_state = np.zeros((1, 30, 45)).astype(np.float32)
 
@@ -145,9 +125,8 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
                 agent.train()
             if done:
                 #train_scores.append(game.get_total_reward())
-                train_scores.append(episode_reward)
-                episode_reward = 0
-                game.new_episode()
+                train_scores.append(doom_env.episode_reward)
+                doom_env.reset()
 
             global_step += 1
 
@@ -163,7 +142,8 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
         )
 
 
-        test_score = test(game, agent, actions, base_reward_per_step)
+        test_score = -5
+        #test(game, agent, actions, base_reward_per_step)
 
         wandb_run.log(
             {
@@ -179,8 +159,7 @@ def run_training(wandb_run, save_path, game, agent, actions, num_epochs, frame_r
 
         print("Total elapsed time: %.2f minutes" % ((time() - start_time) / 60.0))
 
-    game.close()
-    return agent, game
+    doom_env.close_env()
 
 class DuelQNet(nn.Module):
     """
@@ -329,15 +308,11 @@ class DQNAgent:
             self.epsilon = self.epsilon_min
 
 
+def run_training_for_DQN(level_name, wandb_run, agent_config, save_path):
 
-
-def run_training_for_DQN(level_details, wandb_run, agent_config, save_path):
-
-    # Initialize game and actions
-    game = create_simple_game(level_details)
-
-
-    n = game.get_available_buttons_size()
+    doom_env = DoomEnv(level_name, agent_config)
+   
+    n = doom_env.get_action_space_size()
     actions = [list(a) for a in it.product([0, 1], repeat=n)]
 
     # Initialize our agent with the set parameters
@@ -350,25 +325,25 @@ def run_training_for_DQN(level_details, wandb_run, agent_config, save_path):
         load_model=agent_config.load_model,
     )
 
-    # Run the training for the set number of epochs
-    if not agent_config.skip_learning:
-        agent, game = run_training(
-            wandb_run,
-            save_path,
-            game,
-            agent,
-            actions,
-            num_epochs=agent_config.train_epochs,
-            frame_repeat=agent_config.frame_repeat,
-            steps_per_epoch=agent_config.learning_steps_per_epoch
-        )
+    run_training(
+        wandb_run,
+        save_path,
+        #game,
+        doom_env,
+        agent,
+        actions,
+        num_epochs=agent_config.train_epochs,
+        frame_repeat=agent_config.frame_repeat,
+        steps_per_epoch=agent_config.learning_steps_per_epoch
+    )
 
-        # print("======================================")
-        # print("Training finished. It's time to watch!")
-        print("Training finished.")
+    # print("======================================")
+    # print("Training finished. It's time to watch!")
+    print("Training finished.")
 
     # Reinitialize the game with window visible
-    game.close()
+    #game.close()
+    doom_env.close_env()
     # game.set_window_visible(True)
     # game.set_mode(vzd.Mode.ASYNC_PLAYER)
     # game.init()
@@ -392,7 +367,7 @@ for run_nb in range(NB_RUNS):
         group=level_details["level_name"] + "-" + series_timestamp,
     )
 
-    run_training_for_DQN(level_details, wdb_run, AGENT_CONFIG, run_save_dir)
+    run_training_for_DQN(level_name, wdb_run, AGENT_CONFIG, run_save_dir)
 
     wdb_run.finish()
 
